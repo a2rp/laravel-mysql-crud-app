@@ -1,106 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit</title>
-    <style>
-        *, ::before,::after {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            font-size: 12px;
-        }
-        .container {
-            padding: 15px;
-        }
-        .pageName {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-        .homePageLink {
-            display: inline-block;
-            margin-top: 5px;
-            margin-bottom: 5px;
-            text-decoration: none;
-            background-color: #000;
-            color: #fff;
-            padding: 5px;
-            padding-left: 15px;
-            padding-right: 15px;
-            border-radius: 3px;
-        }
-        ul {
-            padding-left: 30px;
-            margin-top: 5px;
-            margin-bottom: 5px;
-            color: orangered;
-        }
-        .homePageLink:hover {
-            background-color: #333;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 3px;
-        }
-        input[type="text"] {
-            height: 30px;
-            width: 300px;
-            padding: 5px;
-        }
-
-        input[type="submit"] {
-            margin-top: 15px;
-            border: none;
-            padding: 5px;
-            padding-left: 15px;
-            padding-right: 15px;
-            background-color: #000;
-            color: #fff;
-            cursor: pointer;
-            border-radius: 3px;
-            height: 30px;;
-        }
-        input[type="submit"]:hover {
-            background-color: #333;;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1 class="pageName">Edit Product</h1>
-        <div>
-            @if($errors->any())
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{$error}}</li>
-                @endforeach
-            </ul>
-            @endif
-        </div>
-        <a class="homePageLink" href="{{route('product/index')}}">Home</a>
-        <form action="{{route('product/update', ['product'=>$product])}}" method="post">
-            @csrf
-            @method("put")
-            <div>
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Name" value="{{$product->name}}">
-            </div>
-            <div>
-                <label for="quantity">Quantity</label>
-                <input type="text" id="quantity" name="quantity" placeholder="Quantity" value="{{$product->quantity}}">
-            </div>
-            <div>
-                <label for="price">Price</label>
-                <input type="text" id="price" name="price" placeholder="Price" value="{{$product->price}}">
-            </div>
-            <div>
-                <input type="submit" value="UPDATE" />
-            </div>
-        </form>
-    </div>
-</body>
-</html>
+@extends('products.layout')
+@section('title', 'Edit Product')
+@section('content')
+<section class="heading">
+    <div><p class="eyebrow">Inventory management</p><h1>Edit product</h1><p class="lead">Update this product and keep the inventory record accurate.</p></div>
+    <a class="button" href="{{ route('product/index') }}">Back to products</a>
+</section>
+@if($errors->any())
+<div class="errors" role="alert"><strong>Please review the form:</strong><ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
+@endif
+<form class="form-card" action="{{ route('product/update', ['product' => $product]) }}" method="POST">
+    @csrf
+    @method("put")
+    <div class="field"><label for="name">Product name</label><input id="name" type="text" name="name" value="{{ old('name', $product->name) }}" placeholder="Enter product name" required></div>
+    <div class="field"><label for="quantity">Quantity</label><input id="quantity" type="number" min="0" step="1" name="quantity" value="{{ old('quantity', $product->quantity) }}" placeholder="0" required></div>
+    <div class="field"><label for="price">Price</label><input id="price" type="number" min="0" step="0.01" name="price" value="{{ old('price', $product->price) }}" placeholder="0.00" required></div>
+    <button class="button" type="submit">Update product</button>
+</form>
+@endsection
