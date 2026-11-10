@@ -10,9 +10,10 @@
 @endif
 <form class="form-card" action="{{ route('product/store') }}" method="POST">
     @csrf
-    <div class="field"><label for="name">Product name</label><input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Enter product name" required></div>
-    <div class="field"><label for="quantity">Quantity</label><input id="quantity" type="number" min="0" step="1" name="quantity" value="{{ old('quantity') }}" placeholder="0" required></div>
-    <div class="field"><label for="price">Price</label><input id="price" type="number" min="0" step="0.01" name="price" value="{{ old('price') }}" placeholder="0.00" required></div>
+    <div class="field"><label for="name">Product name</label><input id="name" type="text" name="name" value="{{ old('name') }}" placeholder="Enter product name" maxlength="255" required></div>
+    <div class="field"><label for="description">Description</label><textarea id="description" name="description" maxlength="10000" placeholder="Describe the product" required>{{ old('description') }}</textarea></div>
+    <div class="field"><label for="quantity">Quantity</label><input id="quantity" type="number" min="0" max="2147483647" step="1" name="quantity" value="{{ old('quantity') }}" placeholder="0" required></div>
+    <div class="field"><label for="price">Unit price</label><input id="price" type="number" min="0" max="999999.99" step="0.01" name="price" value="{{ old('price') }}" placeholder="0.00" required></div>
     <button class="button" type="submit">Save product</button>
 </form>
 @endsection

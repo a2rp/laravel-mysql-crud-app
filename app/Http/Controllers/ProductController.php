@@ -11,7 +11,9 @@ class ProductController extends Controller
 {
     public function index(): View
     {
-        return view('products.index', ['products' => Product::latest()->get()]);
+        return view('products.index', [
+            'products' => Product::query()->latest()->paginate(10),
+        ]);
     }
 
     public function create(): View
@@ -23,8 +25,9 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'quantity' => 'required|numeric|min:0',
-            'price' => 'required|decimal:0,2|min:0',
+            'description' => 'required|string|max:10000',
+            'quantity' => 'required|integer|min:0|max:2147483647',
+            'price' => 'required|numeric|decimal:0,2|min:0|max:999999.99',
         ]);
 
         Product::create($data);
@@ -41,8 +44,9 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'quantity' => 'required|numeric|min:0',
-            'price' => 'required|decimal:0,2|min:0',
+            'description' => 'required|string|max:10000',
+            'quantity' => 'required|integer|min:0|max:2147483647',
+            'price' => 'required|numeric|decimal:0,2|min:0|max:999999.99',
         ]);
 
         $product->update($data);
